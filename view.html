@@ -1,0 +1,62 @@
+<!DOCTYPEhtml>
+<html>
+    <head>
+		<link rel="stylesheet" href="css/themes/mytheme.css"/>
+		<link rel="stylesheet" href="css/themes/jquery.mobile.icons.min.css"/>
+        <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
+		<link rel="stylesheet" href="css/jquery-ui.css">
+		<script src="js/jquery-2.1.4.min.js"></script>
+		<script src="js/jquery-ui.js"></script>
+		<script src="js/jquery.mobile-1.4.5.min.js"></script>
+		<script src="phonegap.js"></script>
+		<script>
+		jQuery(function($){
+			
+			var theUrl = "request.php?cmd=2";
+
+			var obj=sendRequest(theUrl);
+			alert(obj);
+			if(obj.result==1){
+			$("#listValue").text(obj.result);
+			}
+		})
+		
+		function sendRequest(u){
+				var obj=$.ajax({url:u,async:false});
+				var result=$.parseJSON(obj.responseText);
+				
+				return result;
+			}
+
+		</script>
+    </head>
+    <body>
+        <!--header-->
+        <!--page content-->
+			<div data-role="page" id="pageone">
+			<!--header-->
+				<div data-role="header" data-position="inline">
+					<a href="index.html"class="ui-btn ui-icon-home ui-btn-icon-left">Home</a>
+					<h1> Metre Reading</h1>
+					<a href="view.html" class="ui-btn-right ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-grid">View</a>	
+				</div>
+            
+            <!--content-->
+            <div role="main"class="ui-content">
+                <div data-role="collapsible">
+					<h1>Values in JQueryDatabase<h1>
+					<ul id="listValue">
+					</ul>
+				</div>
+
+            </div>
+            
+            <!--footer-->
+            <div data-role="footer" data-position="inline">
+                <h1>Footer</h1>
+                <!--put footer content here-->
+            </div>
+        </div>
+
+    </body>
+</html>

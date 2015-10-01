@@ -11,24 +11,42 @@
 		<script src="phonegap.js"></script>
 		<script>
 		$(function(){
-			$("#datepicker").datepicker();
+			$("#datepicker").datepicker({
+				dateFormat:"yy-mm-dd"
+			});
 		});
 		
 		function scanBarcode(){
 				cordova.plugins.barcodeScanner.scan(
 					function (result) {
 					$("#captured").val(result.text)
-					alert("We got a barcode\n" +
-						"Result: " + result.text + "\n" +
-						"Format: " + result.format + "\n" +
-						"Cancelled: " + result.cancelled);
 					}, 
 					function (error) {
 						alert("Scanning failed: " + error);
 					}
 				);
-   
-				
+			}
+			
+			function submitData(){
+				$("#submitData").submit(function(ev){
+					ev.preventDefault();
+					var read = $("#reading").val();
+					var capture = $("#captured").val();
+					var dateVal = $("#datepicker").val();
+					var loc = $("#location").val();
+					var stringVal = "reading="+read+"&captured="+capture+"&date="+dateVal+"&location="+loc;
+					//$("#trial").text(stringVal);
+
+					$.ajax({
+						type: 'POST',
+						url:"insert.php",
+						data: stringVal,
+						success:function(data){
+						$('#message').html("Successfully added");
+						 }
+					});
+					
+				});
 			}
 		</script>
 	</head>
@@ -46,21 +64,23 @@
 			<!--content-->
 			<div data-role="main" class="ui-content">
 			<input type="button" value ="SCAN" id="btnScan" onclick="scanBarcode()">
-				<form method="POST" action="index.html">
+				<form method="POST" action="insert.php" id="submitData">
 					<label for="Reading">Reading:</label>
 					<input type="text" name="reading" id="reading">
 					<label for="captured">Captured Value:</label>
-					<input type="text" name="captured" id="captured" id="captured">
+					<input type="text" name="captured" id="captured" >
 					<label for="date">Date: </label>
-					<input type="text" id="datepicker">
+					<input type="text"name="date" id="datepicker">
 					<label for="location">Location:</label>
 					<input type="text" name="location" id="location">
-					<input type="submit" value="Submit Button">
+					<input type="submit" value="Submit Button"  onclick="submitData()">
 			</div>
 			
 			<!--footer-->
 			<div data-role="footer">
-				<h1> Display Message Here </h1>
+				<h1 id="message">  </h1>
+				<div id="trial"></div>
+				<div id="date"></div>
 			</div>
 		</body>
 </html>

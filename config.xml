@@ -12,6 +12,9 @@
 		<author href="hVp://www.ashesi.edu.gh" email="migaliza.lyza@gmail.com">>
 			Beatrice Migaliza
 		</author>
+		<gap:plugin name="cordova-plugin-whitelist" source="npm" />
+		<access origin="*" />
+		
 		
 		
 		<gap:plugin name="com.phonegap.plugins.barcodescanner" version="2.2.0" />
